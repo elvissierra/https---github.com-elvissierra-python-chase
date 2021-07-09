@@ -13,12 +13,11 @@ MOVEMENT_MAP = {LEFT: [0, -1], UP: [-1, 0], RIGHT: [0, 1], DOWN: [1, 0]}
 WASD_MAP = {'w': UP, 'a': LEFT, 's': DOWN, 'd': RIGHT, 'W': UP, 'A': LEFT, 'S': DOWN, 'D': RIGHT}
 dead = False
 
-# -------CONFIG--------
 BORDER = '⬜️'
 BODY = '🟩'
 HEAD = '🟥'
 SPACE = ' '
-APPLE = '🍎'
+MOUSE = '🐭'
 
 # initial snake position
 snake = deque([[6, 5], [6, 4], [6, 3]])
@@ -41,7 +40,7 @@ N2 = 2
 M = 9
 # -----CONFIG END------
 
-messages = ['you can do it!', "don't get eaten!", 'run, forest, run!', "where there's a will, there's a way", "you can beat it!", "outsmart the snake!"]
+messages = ["ruuuuun, run away from the snake!"]
 message = None
 
 def list_empty_spaces(world, space):
@@ -68,10 +67,10 @@ with term.cbreak(), term.hidden_cursor():
     world[s[0]][s[1]] = BODY
   head = snake[0]
   world[head[0]][head[1]] = HEAD
-  world[food[0]][food[1]] = APPLE
+  world[food[0]][food[1]] = MOUSE
   for row in world:
     print(' '.join(row))
-  print('use arrow keys or WASD to move!')
+  print('use arrow keys or W-A-S-D to move!')
   print("this time, you're the food 😱\n")
   print('I recommend expanding the terminal window')
   print('so the game has enough space to run')
@@ -136,7 +135,7 @@ with term.cbreak(), term.hidden_cursor():
     turn += 1
     # snake only moves N - 1 out of N turns.
     # before the snake moves, clear the current
-    # location of the food.
+    # location of the mouse.
     world[food[0]][food[1]] = SPACE
     if turn % N2 < N1:
       snake.appendleft(next_move)
@@ -170,13 +169,13 @@ with term.cbreak(), term.hidden_cursor():
     # move to an empty space.
     if food_heading == SPACE:
       food = food_copy
-    # If somehow the food's current location
+    # If somehow the mouse's current location
     # overlaps with the snake's body, then
-    # the apple's dead.
+    # the mouse's dead.
     if world[food[0]][food[1]] == BODY or world[food[0]][food[1]] == HEAD:
       dead = True
     if not dead:
-      world[food[0]][food[1]] = APPLE
+      world[food[0]][food[1]] = MOUSE
 
     print(term.move_yx(0, 0))
     for row in world:
